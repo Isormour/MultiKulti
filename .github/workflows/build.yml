@@ -1,0 +1,62 @@
+ame: Unity Build & Deploy
+
+on:
+  push:
+    branches:
+      - release   # zmień na swój branch
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-latest
+    steps:
+      # Pobranie repo
+      - uses: actions/checkout@v4
+
+      # Cache bibliotek Unity
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            Library-${{ runner.os }}-
+
+      # Build przy użyciu game-ci
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        with:
+          targetPlatform: WebGL
+          email: ${{ secrets.UNITY_EMAIL }}
+          password: ${{ secrets.UNITY_PASSWORD }}
+          serial: ''   # dla licencji Personal zostaw puste
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      # Upload buildu jako artifact
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build
+          path: build
+
+  deploy:
+    name: Deploy to itch.io
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Build
+          path: build
+
+      # Instalacja Butlera
+      - name: Install butler
+        run: |
+          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default | tar -xvz
+          sudo mv butler /usr/local/bin/butler
+
+      # Upload na itch.io
+      - name: Upload to itch.io
+        run: |
+          butler push build/WebGL Isormour/game:MultiKulti
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}

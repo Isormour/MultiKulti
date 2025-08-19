@@ -30,6 +30,7 @@ jobs:
           password: ${{ secrets.UNITY_PASSWORD }}
           serial: ''   # dla licencji Personal zostaw puste
         env:
+          UNITY_VERSION: 6000.0.50f1
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
       # Upload buildu jako artifact

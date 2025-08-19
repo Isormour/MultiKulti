@@ -1,4 +1,4 @@
-ame: Unity Build & Deploy
+name: Unity Build & Deploy
 
 on:
   push:

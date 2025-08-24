@@ -12,6 +12,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
     List<Lobby> rooms = null;
     Lobby currentLobby = null;
     int maxPlayers = 16;
+    bool isLobbyHost = false;
     void Start()
     {
         SetText("Auto Starting.");
@@ -85,8 +86,15 @@ public class DBNetworkManagerStarter : MonoBehaviour
             { "JoinCode", new DataObject(DataObject.VisibilityOptions.Member, DBNetworkManager.Instance.relayJoinCode) }
         };
         currentLobby = await LobbyService.Instance.CreateOrJoinLobbyAsync("HostLobby" + Random.Range(0, 1000), "Lobby", maxPlayers, optionsCreator);
+        isLobbyHost = true;
         StartCoroutine(HearthBeat());
-
+    }
+    private void OnDestroy()
+    {
+        if (isLobbyHost)
+        {
+            LobbyService.Instance.DeleteLobbyAsync(currentLobby.Id);
+        }
     }
 
     public void SetText(string text)

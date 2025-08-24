@@ -24,11 +24,9 @@ public class GameplaySession : NetworkBehaviour
 
     public class SyncListPlayerData : SyncList<PlayerData> { }
     public SyncListPlayerData playerList { private set; get; } = new SyncListPlayerData();
-
     public static GameplaySession Instance { private set; get; }
     public event Action OnGameStarted;
     public GameObject TankPrefab;
-
 
     private void Awake()
     {

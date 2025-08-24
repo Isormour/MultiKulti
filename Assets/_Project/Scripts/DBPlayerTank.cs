@@ -6,9 +6,12 @@ public class DBPlayerTank : NetworkBehaviour
     [SerializeField] float moveSpeed;
     [SerializeField] float rotSpeed;
     new bool isLocalPlayer = false;
+    [SerializeField] Transform CameraPivot;
+
     public override void OnStartAuthority()
     {
         isLocalPlayer = true;
+        DBGameManager.instance.cameraController.SetTarget(CameraPivot);
 
     }
     void Update()

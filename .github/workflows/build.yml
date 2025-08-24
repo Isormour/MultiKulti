@@ -1,32 +1,29 @@
+---
 name: Unity Build & Deploy
-
 on:
   push:
     branches:
       - release
-
 jobs:
   build:
     name: Build Unity Project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             Library-${{ runner.os }}-
-
       - name: Build project
         uses: game-ci/unity-builder@v4
         with:
           email: ${{ secrets.UNITY_EMAIL }}
           password: ${{ secrets.UNITY_PASSWORD }}
-          serial: ''   # dla licencji Personal zostaw puste
+          serial: ""
           targetPlatform: WebGL
-          unityVersion: 6000.0.50f1   # sprawdź w ProjectVersion.txt
+          unityVersion: 6000.0.50f1
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
@@ -36,7 +33,6 @@ jobs:
         with:
           name: Build
           path: build
-
   deploy:
     name: Deploy to itch.io
     runs-on: ubuntu-latest
@@ -46,21 +42,22 @@ jobs:
         with:
           name: Build
           path: build
-
       - name: Zip WebGL build
         run: |
           cd build/WebGL
           zip -r ../../WebGLBuild.zip .
-
       - name: Download and extract butler
-        run: |
-            curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-            unzip butler.zip -d butler_extracted
-            chmod +x butler_extracted/butler
-            sudo mv butler_extracted/butler /usr/local/bin/butler
+        run: >
+          curl -L -o butler.zip
+          https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
 
-    - name: Upload to itch.io
-      run: |
-        butler push WebGLBuild.zip isormour/game:html5
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          unzip butler.zip -d butler_extracted
+
+          chmod +x butler_extracted/butler
+
+          sudo mv butler_extracted/butler /usr/local/bin/butler
+      - name: Upload to itch.io
+        run: |
+          butler push WebGLBuild.zip isormour/game:html5
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}

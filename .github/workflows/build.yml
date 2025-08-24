@@ -6,33 +6,33 @@ on:
       - release
 jobs:
   build:
-    name: Build Unity Project
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v3
-        with:
-          path: Library
-          key: Library-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            Library-${{ runner.os }}-
-      - name: Build project
-        uses: game-ci/unity-builder@v4
-        with:
-          email: ${{ secrets.UNITY_EMAIL }}
-          password: ${{ secrets.UNITY_PASSWORD }}
-          serial: ""
-          targetPlatform: WebGL
-          unityVersion: 6000.0.50f1
-        env:
-          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-          UNITY_VERSION: 6000.0.50f1
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Build
-          path: build
+    # name: Build Unity Project
+    # runs-on: ubuntu-latest
+    # steps:
+      # - uses: actions/checkout@v4
+      # - uses: actions/cache@v3
+        # with:
+          # path: Library
+          # key: Library-${{ runner.os }}-${{ github.sha }}
+          # restore-keys: |
+            # Library-${{ runner.os }}-
+      # - name: Build project
+        # uses: game-ci/unity-builder@v4
+        # with:
+          # email: ${{ secrets.UNITY_EMAIL }}
+          # password: ${{ secrets.UNITY_PASSWORD }}
+          # serial: ""
+          # targetPlatform: WebGL
+          # unityVersion: 6000.0.50f1
+        # env:
+          # UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          # UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          # UNITY_VERSION: 6000.0.50f1
+          # UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      # - uses: actions/upload-artifact@v4
+        # with:
+          # name: Build
+          # path: build
   deploy:
     name: Deploy to itch.io
     runs-on: ubuntu-latest
@@ -42,10 +42,15 @@ jobs:
         with:
           name: Build
           path: build
-      - name: Zip WebGL build
-        run: |
-          cd build/WebGL
-          zip -r ../../WebGLBuild.zip .
+      # - name: Zip WebGL build
+        # run: |
+          # cd build/WebGL
+          # zip -r ../../WebGLBuild.zip .
+      - name: Download file
+        run: >
+          curl -L -o build.zip
+         https://github.com/Isormour/MultiKulti/actions/runs/17189078078/artifacts/3837839797
+    
       - name: Download and extract butler
         run: >
           curl -L -o butler.zip
@@ -58,6 +63,6 @@ jobs:
           sudo mv butler_extracted/butler /usr/local/bin/butler
       - name: Upload to itch.io
         run: |
-          butler push WebGLBuild.zip isormour/game:html5
+          butler push build.zip isormour/game:html5
         env:
           BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}

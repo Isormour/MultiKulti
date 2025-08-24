@@ -12,13 +12,13 @@ jobs:
     #needs: build
     steps:
       - uses: actions/download-artifact@v4
-        with:
-          name: Build
-          path: build
+       # with:
+       #   name: Build
+       #   path: build
       - name: Download file
         run: >
           curl -L -o build.zip
-          https://github.com/Isormour/MultiKulti/actions/runs/17189078078/artifacts/3837839797
+          https://github.com/Isormour/MultiKulti/blob/release/WebBuild2.zip
       - name: Download and extract butler
         run: |
           curl -L -o butler.zip

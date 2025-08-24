@@ -3,17 +3,15 @@ name: Unity Build & Deploy
 on:
   push:
     branches:
-      - release   # zmień na swój branch
+      - release
 
 jobs:
   build:
     name: Build Unity Project
     runs-on: ubuntu-latest
     steps:
-      # Pobranie repo
       - uses: actions/checkout@v4
 
-      # Cache bibliotek Unity
       - uses: actions/cache@v3
         with:
           path: Library
@@ -21,19 +19,12 @@ jobs:
           restore-keys: |
             Library-${{ runner.os }}-
 
-      # Build przy użyciu game-ci
       - name: Build project
-        uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v4
         with:
           targetPlatform: WebGL
-          email: ${{ secrets.UNITY_EMAIL }}
-          password: ${{ secrets.UNITY_PASSWORD }}
-          serial: ''   # dla licencji Personal zostaw puste
-        env:
-          UNITY_VERSION: 6000.0.50f1
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          unityVersion: 2023.2.50f1   # sprawdź w ProjectVersion.txt
 
-      # Upload buildu jako artifact
       - uses: actions/upload-artifact@v4
         with:
           name: Build
@@ -49,15 +40,18 @@ jobs:
           name: Build
           path: build
 
-      # Instalacja Butlera
+      - name: Zip WebGL build
+        run: |
+          cd build/WebGL
+          zip -r ../../WebGLBuild.zip .
+
       - name: Install butler
         run: |
           curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default | tar -xvz
           sudo mv butler /usr/local/bin/butler
 
-      # Upload na itch.io
       - name: Upload to itch.io
         run: |
-          butler push build/WebGL isormour/game:multikulti
+          butler push WebGLBuild.zip isormour/game:html5
         env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}

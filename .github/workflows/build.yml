@@ -17,7 +17,7 @@ jobs:
        #   path: build
       - name: Download file
         run: >
-          curl -L https://github.com/Isormour/MultiKulti/blob/release/WebBuild2.zip -o build.zip
+          curl -L https://raw.githubusercontent.com/Isormour/MultiKulti/release/WebBuild2.zip -o build.zip
       - name: Download and extract butler
         run: |
           curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
@@ -29,6 +29,6 @@ jobs:
           sudo mv butler_extracted/butler /usr/local/bin/butler
       - name: Upload to itch.io
         run: |
-          butler push ./build.zip isormour/multikulti:html5
+          butler push build.zip isormour/multikulti:html5
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}

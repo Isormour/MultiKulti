@@ -52,7 +52,7 @@ jobs:
           cd build/WebGL
           zip -r ../../WebGLBuild.zip .
 
-     - name: Download and extract butler
+      - name: Download and extract butler
         run: |
             curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
             unzip butler.zip -d butler_extracted
@@ -64,9 +64,3 @@ jobs:
         butler push WebGLBuild.zip isormour/game:html5
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-
-          - name: Upload to itch.io
-            run: |
-              butler push WebGLBuild.zip isormour/game:html5
-            env:
-              BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}

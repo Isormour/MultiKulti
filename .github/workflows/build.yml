@@ -42,19 +42,19 @@ jobs:
         with:
           name: Build
           path: build
-      - name: Zip WebGL build
+
+      - name: Zip Windows build
         run: |
-          cd build/WebGL
-          zip -r ../../WebGLBuild.zip .    
+          cd build/StandaloneWindows64
+          zip -r ../../PCBuild.zip .
+
       - name: Download and extract butler
         run: |
           curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
-        
           unzip butler.zip -d butler_extracted
-
           chmod +x butler_extracted/butler
-
           sudo mv butler_extracted/butler /usr/local/bin/butler
+
       - name: Upload to itch.io
         run: |
           butler push PCBuild.zip isormour/multikulti:windows

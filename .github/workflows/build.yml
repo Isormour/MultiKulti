@@ -29,6 +29,6 @@ jobs:
           sudo mv butler_extracted/butler /usr/local/bin/butler
       - name: Upload to itch.io
         run: |
-          butler push ./build.zip isormour/multikulti
+          butler push ./build.zip isormour/multikulti:html5
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}

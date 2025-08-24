@@ -17,13 +17,11 @@ jobs:
        #   path: build
       - name: Download file
         run: >
-          curl -L -o build.zip
-          https://github.com/Isormour/MultiKulti/blob/release/WebBuild2.zip
+          curl -L https://github.com/Isormour/MultiKulti/blob/release/WebBuild2.zip -o build.zip
       - name: Download and extract butler
         run: |
-          curl -L -o butler.zip
-          https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-
+          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
+        
           unzip butler.zip -d butler_extracted
 
           chmod +x butler_extracted/butler

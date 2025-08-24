@@ -26,7 +26,7 @@ jobs:
           targetPlatform: WebGL
           unityVersion: 2023.2.50f1   # sprawdź w ProjectVersion.txt
         env:
-          UNITY_VERSION: 2023.2.50f1
+          UNITY_VERSION: 6000.0.50f1
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       - uses: actions/upload-artifact@v4
         with:

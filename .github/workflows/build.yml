@@ -52,13 +52,21 @@ jobs:
           cd build/WebGL
           zip -r ../../WebGLBuild.zip .
 
-      - name: Install butler
+     - name: Download and extract butler
         run: |
-          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default | tar -xvz
-          sudo mv butler /usr/local/bin/butler
+            curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+            unzip butler.zip -d butler_extracted
+            chmod +x butler_extracted/butler
+            sudo mv butler_extracted/butler /usr/local/bin/butler
 
-      - name: Upload to itch.io
-        run: |
-          butler push WebGLBuild.zip isormour/game:html5
-        env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+    - name: Upload to itch.io
+      run: |
+        butler push WebGLBuild.zip isormour/game:html5
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+
+          - name: Upload to itch.io
+            run: |
+              butler push WebGLBuild.zip isormour/game:html5
+            env:
+              BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}

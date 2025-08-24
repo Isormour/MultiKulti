@@ -39,12 +39,12 @@ public class DBNetworkManager : RelayNetworkManager
     }
     private async void UnityLogin()
     {
-        Debug.LogError("Try Unity Login");
+        Debug.Log("Try Unity Login");
         try
         {
             await UnityServices.InitializeAsync();
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
-            Debug.LogError("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
+            Debug.Log("Logged into Unity, player ID: " + AuthenticationService.Instance.PlayerId);
             isUnityLoggedIn = true;
             OnUnityLoggedIn?.Invoke();
 

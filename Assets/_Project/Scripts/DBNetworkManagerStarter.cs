@@ -15,7 +15,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
     void Start()
     {
         SetText("Auto Starting.");
-        Debug.LogError("AutoStarting");
+        Debug.Log("AutoStarting");
         if (!DBNetworkManager.Instance.isUnityLoggedIn)
         {
             DBNetworkManager.Instance.OnUnityLoggedIn += OnUnityLoggedIn;
@@ -29,7 +29,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
     private void OnUnityLoggedIn()
     {
         SetText("Unity Logged In.");
-        Debug.LogError("UnityLogged In, getting rooms , or creating server");
+        Debug.Log("UnityLogged In, getting rooms , or creating server");
         StartCoroutine(Waiter());
         GetRooms();
     }
@@ -37,7 +37,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
     {
         var lobbies = await LobbyService.Instance.QueryLobbiesAsync();
         rooms = lobbies.Results;
-        Debug.LogError("Rooms found: " + rooms.Count);
+        Debug.Log("Rooms found: " + rooms.Count);
     }
 
 
@@ -54,7 +54,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
         yield return new WaitForSeconds(3.1f);
         if (rooms == null || rooms.Count == 0)
         {
-            Debug.LogError("Starting server");
+            Debug.Log("Starting server");
             StartServer();
         }
         else

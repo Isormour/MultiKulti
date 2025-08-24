@@ -24,7 +24,7 @@ jobs:
         with:
           serial: ''   # dla licencji Personal zostaw puste
           targetPlatform: WebGL
-          unityVersion: 2023.2.50f1   # sprawdź w ProjectVersion.txt
+          unityVersion: 6000.0.50f1   # sprawdź w ProjectVersion.txt
         env:
           UNITY_VERSION: 6000.0.50f1
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}

@@ -5,9 +5,10 @@ public class CameraController : MonoBehaviour
     Transform targetToFollow;
     [SerializeField] float followMoveSpeed;
     [SerializeField] float followRotSpeed;
-    [SerializeField] Camera cam;
     [SerializeField] float maxOrtographicSize;
     [SerializeField] float maxHeight;
+
+    [field: SerializeField] public Camera cam { private set; get; }
     void Start()
     {
 

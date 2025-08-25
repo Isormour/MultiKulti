@@ -116,5 +116,14 @@ public class GameplaySession : NetworkBehaviour
         DBDebugText.Instance.SetText($"Stan gry: {newState}");
     }
 
+    internal static void SpawnVFX(DBGameManager.EVFXID bulletHit, Vector3 position, Quaternion identity)
+    {
+        Instance.RPCSpawnVFX(bulletHit, position, identity);
+    }
+    [ClientRpc]
+    void RPCSpawnVFX(DBGameManager.EVFXID id, Vector3 position, Quaternion rotation)
+    {
+        DBGameManager.SpawnVFX(id, position, rotation);
+    }
 }
 

@@ -1,43 +1,38 @@
-ame: Unity Build & Deploy
-
+---
+name: Unity Build & Deploy
 on:
   push:
     branches:
-      - release   # zmień na swój branch
-
+      - release
 jobs:
   build:
     name: Build Unity Project
     runs-on: ubuntu-latest
     steps:
-      # Pobranie repo
       - uses: actions/checkout@v4
-
-      # Cache bibliotek Unity
       - uses: actions/cache@v3
         with:
           path: Library
           key: Library-${{ runner.os }}-${{ github.sha }}
           restore-keys: |
             Library-${{ runner.os }}-
-
-      # Build przy użyciu game-ci
       - name: Build project
-        uses: game-ci/unity-builder@v2
+        uses: game-ci/unity-builder@v4
         with:
-          targetPlatform: WebGL
           email: ${{ secrets.UNITY_EMAIL }}
           password: ${{ secrets.UNITY_PASSWORD }}
-          serial: ''   # dla licencji Personal zostaw puste
+          serial: ""
+          targetPlatform: StandaloneWindows64
+          unityVersion: 6000.0.50f1
         env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_VERSION: 6000.0.50f1
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-
-      # Upload buildu jako artifact
       - uses: actions/upload-artifact@v4
         with:
           name: Build
           path: build
-
   deploy:
     name: Deploy to itch.io
     runs-on: ubuntu-latest
@@ -48,15 +43,20 @@ jobs:
           name: Build
           path: build
 
-      # Instalacja Butlera
-      - name: Install butler
+      - name: Zip Windows build
         run: |
-          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default | tar -xvz
-          sudo mv butler /usr/local/bin/butler
+          cd build/StandaloneWindows64
+          zip -r ../../PCBuild.zip .
 
-      # Upload na itch.io
+      - name: Download and extract butler
+        run: |
+          curl -L https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default -o butler.zip
+          unzip butler.zip -d butler_extracted
+          chmod +x butler_extracted/butler
+          sudo mv butler_extracted/butler /usr/local/bin/butler
+
       - name: Upload to itch.io
         run: |
-          butler push build/WebGL Isormour/game:MultiKulti
+          butler push PCBuild.zip isormour/multikulti:windows
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}

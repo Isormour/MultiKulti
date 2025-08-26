@@ -1,5 +1,72 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3925695897999826822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1644051381184936819}
+  - component: {fileID: 6212857856309103996}
+  m_Layer: 0
+  m_Name: Turret
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1644051381184936819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925695897999826822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2208731972100227781}
+  m_Father: {fileID: 3212366191623157777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6212857856309103996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925695897999826822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0
+  target: {fileID: 1644051381184936819}
+  syncPosition: 0
+  syncRotation: 1
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  useFixedUpdate: 0
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &3995366354016680349
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +79,7 @@ GameObject:
   - component: {fileID: -8606789554879559605}
   - component: {fileID: 4367106545305925606}
   - component: {fileID: -1758707429302881917}
+  - component: {fileID: 8665036332418420473}
   m_Layer: 0
   m_Name: Tank
   m_TagString: Untagged
@@ -34,7 +102,7 @@ Transform:
   m_Children:
   - {fileID: 9194369743546339431}
   - {fileID: 5278916701476726656}
-  - {fileID: 2208731972100227781}
+  - {fileID: 1644051381184936819}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-8606789554879559605
@@ -106,6 +174,30 @@ MonoBehaviour:
   moveSpeed: 3
   rotSpeed: 45
   CameraPivot: {fileID: 9194369743546339431}
+  TankTurret: {fileID: 1644051381184936819}
+  turretRotSpeed: 2.5
+  bulletPrefab: {fileID: 56772600921970117, guid: acf7a97378d6f9f4399840582a7ad384, type: 3}
+--- !u!65 &8665036332418420473
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3995366354016680349}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 1, z: 2.7716808}
+  m_Center: {x: 0, y: 0.73, z: -0.025970638}
 --- !u!1 &5632739287893472374
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +342,7 @@ GameObject:
   - component: {fileID: 5773916828280649954}
   - component: {fileID: 5612459622717415801}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,11 +357,11 @@ Transform:
   m_GameObject: {fileID: 9053283137823215612}
   serializedVersion: 2
   m_LocalRotation: {x: -0.49991274, y: -0.50008726, z: -0.49991274, w: 0.50008726}
-  m_LocalPosition: {x: 0, y: 0.89602757, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3212366191623157777}
+  m_Father: {fileID: 1644051381184936819}
   m_LocalEulerAnglesHint: {x: -89.98, y: -90, z: 0}
 --- !u!33 &5773916828280649954
 MeshFilter:

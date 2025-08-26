@@ -19,18 +19,18 @@ public class DBNetworkManagerStarter : MonoBehaviour
         Debug.Log("AutoStarting");
         if (!DBNetworkManager.Instance.isUnityLoggedIn)
         {
-            DBNetworkManager.Instance.OnUnityLoggedIn += OnUnityLoggedIn;
+            DBNetworkManager.Instance.LowApiLoggedIn += LowApiLoggedIn;
         }
         else
         {
-            OnUnityLoggedIn();
+            LowApiLoggedIn();
         }
     }
 
-    private void OnUnityLoggedIn()
+    private void LowApiLoggedIn()
     {
-        SetText("Unity Logged In.");
-        Debug.Log("UnityLogged In, getting rooms , or creating server");
+        SetText("Low api Logged In.");
+        Debug.Log("low api getting rooms , or creating server");
         StartCoroutine(Waiter());
         GetRooms();
     }
@@ -68,13 +68,13 @@ public class DBNetworkManagerStarter : MonoBehaviour
         SetText("Server found, starting as Client.");
         Lobby lobby = rooms[0];
         Lobby lob = await LobbyService.Instance.JoinLobbyByIdAsync(lobby.Id);
-        DBNetworkManager.Instance.relayJoinCode = lob.Data["JoinCode"].Value;
-        DBNetworkManager.Instance.JoinRelayServer();
+        //DBNetworkManager.Instance.relayJoinCode = lob.Data["JoinCode"].Value;
+        //DBNetworkManager.Instance.JoinRelayServer();
     }
     async void StartServer()
     {
         SetText("No Servers found, starting as Host.");
-        DBNetworkManager.Instance.StartRelayHost(maxPlayers);
+        //DBNetworkManager.Instance.StartRelayHost(maxPlayers);
         DBNetworkManager.Instance.OnServerCreated = OnServerCreated;
     }
     async void OnServerCreated()
@@ -83,7 +83,7 @@ public class DBNetworkManagerStarter : MonoBehaviour
         CreateLobbyOptions optionsCreator = new CreateLobbyOptions();
         optionsCreator.Data = new Dictionary<string, DataObject>()
         {
-            { "JoinCode", new DataObject(DataObject.VisibilityOptions.Member, DBNetworkManager.Instance.relayJoinCode) }
+            //{ "JoinCode", new DataObject(DataObject.VisibilityOptions.Member, DBNetworkManager.Instance.relayJoinCode) }
         };
         currentLobby = await LobbyService.Instance.CreateOrJoinLobbyAsync("HostLobby" + Random.Range(0, 1000), "Lobby", maxPlayers, optionsCreator);
         isLobbyHost = true;

@@ -1,11 +1,10 @@
-using Mirror;
 using System;
 using System.Collections.Generic;
 using Unity.Services.Relay.Models;
 
 namespace Utp
 {
-    public class RelayNetworkManager : NetworkManager
+    public class NetworkManager : Mirror.NetworkManager
     {
         private UtpTransport utpTransport;
 

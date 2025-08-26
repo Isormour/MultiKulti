@@ -8,7 +8,7 @@ using Utp;
 
 namespace Network
 {
-    public class MyNetworkManager : RelayNetworkManager
+    public class MyNetworkManager : Utp.NetworkManager
     {
         /// <summary>
         /// The local player object that spawns in.
@@ -54,7 +54,7 @@ namespace Network
 
         public override void Update()
         {
-            if (NetworkManager.singleton.isNetworkActive)
+            if (Mirror.NetworkManager.singleton.isNetworkActive)
             {
                 if (localPlayer == null)
                 {

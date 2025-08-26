@@ -979,7 +979,10 @@ GameObject:
   - component: {fileID: 389315809}
   - component: {fileID: 389315811}
   - component: {fileID: 389315810}
-  - component: {fileID: 389315812}
+  - component: {fileID: 389315815}
+  - component: {fileID: 389315816}
+  - component: {fileID: 389315814}
+  - component: {fileID: 389315813}
   m_Layer: 0
   m_Name: DBNetworkManager
   m_TagString: Untagged
@@ -1035,7 +1038,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   offlineSceneLoadDelay: 0
-  transport: {fileID: 389315812}
+  transport: {fileID: 389315815}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -1062,9 +1065,9 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  relayJoinCode: 
   tankSession: {fileID: 97482994}
---- !u!114 &389315812
+  webSocketSignaler: {fileID: 389315814}
+--- !u!114 &389315813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,13 +1076,55 @@ MonoBehaviour:
   m_GameObject: {fileID: 389315807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d4f9593ba7f845458730213887b5758, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b06cd5ed7915ba4a8c4606b512ee5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Port: 7777
-  LoggerLevel: 3
-  TimeoutMS: 1000
-  useRelay: 1
+  showGUI: 1
+  offset: {x: -165, y: 0}
+--- !u!114 &389315814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389315807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5086353a266b87e4b889fa3dda3f66c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headerUserAgent: mirror-webrtc
+  serverURL: ws://localhost:3000
+--- !u!114 &389315815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389315807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90649b5824747145965832933adb354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSignaler: {fileID: 389315814}
+  stunUrls:
+  - stun:54.37.233.88:3478
+  dataChannels: 0000000001000000
+--- !u!114 &389315816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 389315807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f7665fe0648c048aa8ba72e11cb9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGUI: 1
+  offset: {x: 10, y: 120}
 --- !u!1 &409047719
 GameObject:
   m_ObjectHideFlags: 0
